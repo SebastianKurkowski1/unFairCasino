@@ -1,22 +1,15 @@
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
+import ManageFireGame from "./Functions/ManageFireGame";
 
-export default function FireGame() {
+export default function FireGame(this: any) {
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
     useEffect(() => {
-        const canvas: HTMLCanvasElement | null = canvasRef.current;
-        if (canvas === null) return;
-        const context = canvas.getContext('2d');
-        if (context === null) return;
-        context.fillStyle = '#000000';
-        context.fillRect(0, 0, 20, 100);
-
-
-
+        ManageFireGame(canvasRef);
     }, [])
 
 
     return (
-        <canvas width={'400px'} height={'400px'} ref={canvasRef} id={'fireGame'}></canvas>
+        <canvas ref={canvasRef} style={{width: '100%', height: '100%'}} id={'fireGame'}></canvas>
     );
 }

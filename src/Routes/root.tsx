@@ -6,6 +6,7 @@ import Background from "../Assets/Images/91657kopia.jpg";
 import DroppingText from "../Assets/Animations/DroppingText";
 import NeonText from "../Assets/Animations/NeonLight/NeonText";
 import FaultyNeonText from "../Assets/Animations/NeonLight/FaultyNeonText";
+import FadeIn from "../Assets/Animations/FadeIn/fadeIn";
 
 export default function Root() {
 
@@ -31,11 +32,19 @@ export default function Root() {
                         <div className={"d-flex flex-row text-4xl sm:text-6xl mb-10 right-96 text-center sm:text-left"}
                              style={{letterSpacing: 5}}>
                             <div className={'inline-block'}>
+                                <FadeIn duration={1500} animationDelay={750}>
+                                    <div>Welcome to</div>
+                                </FadeIn>
+                                {/*
+                                 <div className={'inline-block'}>
                                 <DroppingText lettersDelay={200} word={['W', 'e', 'l', 'c', 'o', 'm', 'e']}
                                               animationDelay={0.1}/>
+
                             </div>
                             <div className={'inline-block ml-5'}>
                                 <DroppingText lettersDelay={200} word={['t', 'o']} animationDelay={0.85}/>
+                            </div>
+                            */}
                             </div>
                         </div>
                         <div className={'text-9xl flex'} style={{fontFamily: 'Sacramento, sans-serif'}}>
