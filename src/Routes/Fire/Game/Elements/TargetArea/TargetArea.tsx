@@ -1,9 +1,16 @@
 import GameData from "../../Const/GameData";
 import {FireGameDataInterface} from "../../../../../Assets/Interfaces/FireGameDataInterface";
 
-export default function TargetArea(ctx: CanvasRenderingContext2D, GameData: FireGameDataInterface, startingX: number, startingY: number, gameWidth: number, gameHeight: number) {
+export default function TargetArea(ctx: CanvasRenderingContext2D,
+                                   GameData: FireGameDataInterface,
+                                   startingX: number,
+                                   startingY: number,
+                                   gameWidth: number,
+                                   gameHeight: number,
+): TargetAreaObject {
     const TargetArea = new TargetAreaObject(startingX, startingY, gameWidth, gameHeight);
     TargetArea.draw(ctx);
+    return TargetArea;
 }
 
 class TargetAreaObject {
@@ -31,6 +38,7 @@ class TargetAreaObject {
         ctx.lineTo(this.x2, this.y2);
         ctx.lineTo(this.x1, this.y2);
         ctx.lineTo(this.x1, this.y1);
+        ctx.strokeStyle = '#241ca2'
         ctx.stroke();
     }
 }
