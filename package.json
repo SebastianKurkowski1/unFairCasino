@@ -35,7 +35,16 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "require-jsdoc": "off",
+      "max-len": [
+        "error",
+        {
+          "code": 120
+        }
+      ]
+    }
   },
   "browserslist": {
     "production": [
@@ -51,7 +60,17 @@
   },
   "devDependencies": {
     "@types/react-helmet": "^6.1.5",
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.0.0",
     "autoprefixer": "^10.4.12",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "postcss": "^8.4.18",
     "tailwindcss": "^3.1.8"
   }

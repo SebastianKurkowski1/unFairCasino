@@ -1,5 +1,5 @@
 export interface GameInterface {
-    gameWidth: number,
-    gameHeight: number,
-    money: number,
+  gameWidth: number,
+  gameHeight: number,
+  money: number,
 }

@@ -1,5 +1,5 @@
 export default function Slots() {
-    return (
-        <div>asldlasld</div>
-    );
+  return (
+    <div>asldlasld</div>
+  );
 }

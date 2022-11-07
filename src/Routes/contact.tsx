@@ -1,5 +1,5 @@
 export default function Contact() {
-    return (
-        <div>asldlasld</div>
-    );
+  return (
+    <div>asldlasld</div>
+  );
 }

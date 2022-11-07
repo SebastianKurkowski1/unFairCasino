@@ -1,20 +1,21 @@
 import './Styles/styles.scss';
-import {useState} from "react";
+import { useState } from 'react';
 
 interface AnimationSettings {
-    animationText: string,
-    animationDelay: number,
-    animationDuration: number,
+  animationText: string,
+  animationDelay: number,
+  animationDuration: number,
 }
 
 export default function FaultyNeonText(animationProps: AnimationSettings) {
-    const [divClass, setDivClass] = useState('neonText');
+  const [divClass, setDivClass] = useState('neonText');
 
-    setTimeout(() => {
-        setDivClass('faultyNeonText');
-    }, animationProps.animationDelay)
+  const { animationDelay, animationText } = animationProps;
+  setTimeout(() => {
+    setDivClass('faultyNeonText');
+  }, animationDelay);
 
-    return (
-        <div className={divClass}>{animationProps.animationText}</div>
-    )
+  return (
+    <div className={divClass}>{animationText}</div>
+  );
 }
