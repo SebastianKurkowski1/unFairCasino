@@ -6,9 +6,11 @@ interface AnimationSettings {
   animationDelay: number,
 }
 
-export default function FadeIn(animationProps: React.PropsWithChildren<AnimationSettings>) {
+export default function FadeIn(
+  { animationDelay, children, duration }: React.PropsWithChildren<AnimationSettings>,
+) {
   const styles = useSpring({
-    delay: animationProps.animationDelay,
+    delay: animationDelay,
     from: {
       opacity: 0,
     },
@@ -16,14 +18,14 @@ export default function FadeIn(animationProps: React.PropsWithChildren<Animation
       opacity: 1,
     },
     config: {
-      duration: animationProps.duration,
+      duration,
       easing: easings.easeInBack,
     },
   });
 
   return (
     <animated.div style={styles}>
-      {animationProps.children}
+      {children}
     </animated.div>
   );
 }

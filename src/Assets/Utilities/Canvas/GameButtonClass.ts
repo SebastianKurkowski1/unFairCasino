@@ -1,4 +1,8 @@
+import React from 'react';
+
 export default class GameButtonClass {
+  public name: string;
+
   public x1: number;
 
   public y1: number;
@@ -17,6 +21,12 @@ export default class GameButtonClass {
 
   public buttonState: string;
 
+  public wasClicked: boolean;
+
+  public active: boolean;
+
+  public stage: number;
+
   constructor(
     ctx: CanvasRenderingContext2D,
     x: number,
@@ -27,13 +37,16 @@ export default class GameButtonClass {
     text: string,
     textColor: string,
     gameWidth: number,
+    stage: number,
+
   ) {
-    this.x1 = x;
-    this.y1 = y;
-    this.x2 = this.x1 + width;
-    this.y2 = this.y1 + height;
-    this.height = height;
-    this.width = width;
+    this.name = Math.round(x).toString() + Math.round(y).toString();
+    this.x1 = Math.round(x);
+    this.y1 = Math.round(y);
+    this.x2 = this.x1 + Math.round(width);
+    this.y2 = this.y1 + Math.round(height);
+    this.height = Math.round(height);
+    this.width = Math.round(width);
     this.radius = radius;
     this.text = text;
     this.createRoundedPath(ctx);
@@ -41,6 +54,9 @@ export default class GameButtonClass {
     ctx.fill();
     this.writeText(ctx, gameWidth, textColor);
     this.buttonState = 'initial';
+    this.wasClicked = false;
+    this.active = false;
+    this.stage = stage;
   }
 
   createRoundedPath(
@@ -73,7 +89,33 @@ export default class GameButtonClass {
     ctx.fillText(text, x + (0.5 * gameWidth) / 40, y + 0.7 * height);
   }
 
-  mouseOver(x: number, y: number): boolean {
-    return x >= this.x1 && x <= this.x2 && y >= this.y1 && y <= this.y2;
+  mouseOver(currentEvent: React.MouseEvent | undefined): boolean {
+    if (currentEvent === undefined) return false;
+    return currentEvent.nativeEvent.offsetX >= this.x1
+        && currentEvent.nativeEvent.offsetX <= this.x2
+        && currentEvent.nativeEvent.offsetY >= this.y1
+        && currentEvent.nativeEvent.offsetY <= this.y2;
+  }
+
+  clicked(currentEvent: React.MouseEvent | undefined): boolean {
+    if (currentEvent === undefined) return false;
+    if (currentEvent.nativeEvent.offsetX >= this.x1
+        && currentEvent.nativeEvent.offsetX <= this.x2
+        && currentEvent.nativeEvent.offsetY >= this.y1
+        && currentEvent.nativeEvent.offsetY <= this.y2
+        && currentEvent.type === 'click') {
+      this.wasClicked = true;
+      return true;
+    }
+    return false;
+  }
+
+  checkIfActive(nameAndStage: object): boolean {
+    console.log(nameAndStage);
+    // @ts-ignore
+    const filtered = nameAndStage.filter(
+      (element) => (element.stage === this.stage && element.name === this.name),
+    );
+    return (filtered.length > 0);
   }
 }

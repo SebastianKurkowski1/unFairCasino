@@ -1,7 +1,7 @@
 import GameButtonClass from '../../../../../Assets/Utilities/Canvas/GameButtonClass';
-import { defaultGameButtonInterface } from '../../../../../Assets/Interfaces/CanvasButtonInterface';
+import { DefaultGameButtonInterface } from '../../../../../Assets/Interfaces/CanvasButtonInterface';
 
-export default function fireGameButton(params: defaultGameButtonInterface) {
+export default function fireGameButton(params: DefaultGameButtonInterface) {
   const { ctx } = params;
   ctx.font = `${params.gameWidth / 60}px serif`;
   const text = ctx.measureText(params.buttonText);
@@ -21,9 +21,10 @@ export default function fireGameButton(params: defaultGameButtonInterface) {
     params.buttonText,
     params.textColor,
     params.gameWidth,
+    params.stage,
   );
-
-  if (fireGameButtonObject.mouseOver(params.mouseCoordinates.x, params.mouseCoordinates.y)) {
+  if (params.currentEvent === undefined) return fireGameButtonObject;
+  if (fireGameButtonObject.mouseOver(params.currentEvent)) {
     ctx.fillStyle = '#221ba4';
     ctx.strokeStyle = '#241ca2';
     fireGameButtonObject.createRoundedPath(ctx);
@@ -35,6 +36,31 @@ export default function fireGameButton(params: defaultGameButtonInterface) {
       'white',
     );
     fireGameButtonObject.buttonState = 'mouseOver';
+  }
+  if (fireGameButtonObject.clicked(params.currentEvent)) {
+    ctx.fillStyle = '#221ba4';
+    ctx.strokeStyle = '#241ca2';
+    fireGameButtonObject.createRoundedPath(ctx);
+    ctx.fill();
+    ctx.stroke();
+    fireGameButtonObject.writeText(
+      ctx,
+      params.gameWidth,
+      '#ffd000',
+    );
+  }
+
+  if (fireGameButtonObject.checkIfActive(params.necessaryButtonData)) {
+    ctx.fillStyle = '#221ba4';
+    ctx.strokeStyle = '#241ca2';
+    fireGameButtonObject.createRoundedPath(ctx);
+    ctx.fill();
+    ctx.stroke();
+    fireGameButtonObject.writeText(
+      ctx,
+      params.gameWidth,
+      '#ffd000',
+    );
   }
 
   return fireGameButtonObject;

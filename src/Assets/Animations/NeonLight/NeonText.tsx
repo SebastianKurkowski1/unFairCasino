@@ -8,14 +8,16 @@ interface AnimationSettings {
   animationDuration: number,
 }
 
-export default function NeonText(animationProps: AnimationSettings) {
+export default function NeonText(
+  { animationDelay, animationDuration, animationText }: AnimationSettings,
+) {
   const [cancel, setCancel] = useState(true);
   const [divClass, setDivClass] = useState('neonText');
 
   setTimeout(() => {
     setCancel(false);
     setDivClass('');
-  }, animationProps.animationDelay);
+  }, animationDelay);
 
   const styles = useSpring({
     loop: {
@@ -31,11 +33,11 @@ export default function NeonText(animationProps: AnimationSettings) {
           + ' 0 0 50px #bc13fe, 0 0 70px #bc13fe, 0 0 110px #bc13fe, 0 0 145px #bc13fe',
     },
     config: {
-      duration: animationProps.animationDuration,
+      duration: animationDuration,
     },
 
   });
   return (
-    <animated.div className={divClass} style={styles}>{animationProps.animationText}</animated.div>
+    <animated.div className={divClass} style={styles}>{animationText}</animated.div>
   );
 }

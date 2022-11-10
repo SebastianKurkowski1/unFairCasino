@@ -1,4 +1,7 @@
+import React from 'react';
 import fireGameButton from '../FireGameButton/fireGameButton';
+import GameButtonClass from '../../../../../Assets/Utilities/Canvas/GameButtonClass';
+import extractValuableButtonsData from '../../../../../Assets/Utilities/Canvas/extractValuableButtonsData';
 
 export default function fireGameSettings(
   ctx: CanvasRenderingContext2D,
@@ -7,8 +10,10 @@ export default function fireGameSettings(
   gameWidth: number,
   gameHeight: number,
   gameState: string,
-  mouseCoordinates: { x: number, y: number },
+  currentEvent: React.MouseEvent | undefined,
+  buttonsState: GameButtonClass[],
 ) {
+  const activeButtonsNameAndStage = extractValuableButtonsData(buttonsState);
   const gameButtonsObjects = [];
   let mouseOver = false;
   let y = startingY;
@@ -25,7 +30,9 @@ export default function fireGameSettings(
     textColor: 'white',
     gameState,
     backgroundColor: '#140f5d',
-    mouseCoordinates,
+    currentEvent,
+    necessaryButtonData: activeButtonsNameAndStage,
+    stage: 1,
   }));
   x += gameButtonsObjects[0].width + 20;
   gameButtonsObjects.push(fireGameButton({
@@ -38,7 +45,9 @@ export default function fireGameSettings(
     textColor: 'white',
     gameState,
     backgroundColor: '#140f5d',
-    mouseCoordinates,
+    currentEvent,
+    necessaryButtonData: activeButtonsNameAndStage,
+    stage: 1,
   }));
   x += gameButtonsObjects[1].width + 20;
   gameButtonsObjects.push(fireGameButton({
@@ -51,12 +60,14 @@ export default function fireGameSettings(
     textColor: 'white',
     gameState,
     backgroundColor: '#140f5d',
-    mouseCoordinates,
+    currentEvent,
+    necessaryButtonData: activeButtonsNameAndStage,
+    stage: 1,
   }));
 
   gameButtonsObjects.forEach((button) => {
     if (button.buttonState === 'mouseOver') mouseOver = true;
   });
 
-  return mouseOver;
+  return { mouseOver, gameButtonsObjects };
 }

@@ -1,22 +1,24 @@
-import { RefObject } from 'react';
+import React, { RefObject } from 'react';
 import GameData from '../Const/GameData';
 import targetArea from '../Elements/TargetArea/targetArea';
 import drawDefaultGameTemplate from '../../../../Assets/Functions/drawDefaultGameTemplate';
 import manageMiddleSection from './manageMiddleSection';
 import fireGameSettings from '../Elements/FireGameSettings/fireGameSettings';
+import GameButtonClass from '../../../../Assets/Utilities/Canvas/GameButtonClass';
 
 export default function manageFireGame(
   canvasRef: RefObject<HTMLCanvasElement>,
-  mouseCoordinates: { x: number, y: number },
-): void {
+  currentEvent: React.MouseEvent | undefined,
+  buttonsState: GameButtonClass[],
+): GameButtonClass[] | boolean {
   // setting canvas margin, fixing width and height
 
   const gameMargin = GameData.gameSettings.margin;
-  if (canvasRef === null) return;
+  if (canvasRef === null) return false;
   const canvas: HTMLCanvasElement | null = canvasRef.current;
-  if (canvas === null) return;
+  if (canvas === null) return false;
   const ctx = canvas.getContext('2d');
-  if (ctx === null) return;
+  if (ctx === null) return false;
   const canvasHeight = canvas.offsetHeight;
   const canvasWidth = canvas.offsetWidth;
   const gameHeight = canvasHeight - 2 * gameMargin;
@@ -48,15 +50,19 @@ export default function manageFireGame(
   manageMiddleSection(ctx, yStartingPosition, canvasWidth, 'initial');
   // todo draw bottom section
 
-  if (fireGameSettings(
+  const fireGameSettingsData = fireGameSettings(
     ctx,
     xStartingPosition,
     yStartingPosition,
     canvasWidth,
     canvasHeight,
     'initial',
-    mouseCoordinates,
-  )) {
+    currentEvent,
+    buttonsState,
+  );
+  if (fireGameSettingsData.mouseOver) {
     document.body.style.cursor = 'pointer';
   } else document.body.style.cursor = 'default';
+
+  return fireGameSettingsData.gameButtonsObjects;
 }

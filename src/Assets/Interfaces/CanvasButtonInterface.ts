@@ -1,4 +1,6 @@
-export interface defaultGameButtonInterface {
+import React from 'react';
+
+export interface DefaultGameButtonInterface {
   ctx: CanvasRenderingContext2D,
   startingX: number,
   startingY: number,
@@ -7,6 +9,8 @@ export interface defaultGameButtonInterface {
   buttonText: string,
   textColor: string,
   gameState: string,
+  stage: number,
   backgroundColor: string,
-  mouseCoordinates: { x: number, y: number }
+  currentEvent: React.MouseEvent | undefined,
+  necessaryButtonData: object,
 }
