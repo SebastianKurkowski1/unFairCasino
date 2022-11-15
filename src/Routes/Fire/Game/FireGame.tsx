@@ -13,7 +13,9 @@ export default function FireGame() {
     const gameButtons = manageFireGame(canvasRef, currentEvent, buttonsState);
     if (typeof gameButtons === 'boolean') return;
     dispatch(changeActiveButtons(JSON.stringify(gameButtons)));
-  }, [currentEvent, dispatch]);
+    console.log(buttonsState);
+    // eslint-disable-next-line
+  }, [currentEvent]);
   return (
     <canvas
       onClick={(event) => {

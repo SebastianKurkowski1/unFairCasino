@@ -1,9 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import GameButtonClass from '../GameButtonClass';
 
-function checkForActiveButton(array: GameButtonClass[]) {
+function getClickedButton(array: GameButtonClass[]): GameButtonClass | null {
   const result = array.filter((button) => button.wasClicked);
-  return result.length > 0;
+  if (result.length > 0) {
+    return result[0];
+  } return null;
 }
 
 const initialState: GameButtonClass[] = [];
@@ -22,18 +24,25 @@ const buttonSlice = createSlice({
         return state;
       }
       // if button was not clicked
-      if (!checkForActiveButton(payloadData)) {
+      const clickedButton = getClickedButton(payloadData);
+      if (clickedButton === null) {
         state.map((button) => {
-          const newButton = button;
+          const newButton = { ...button };
           newButton.wasClicked = false;
           return newButton;
         });
         return state;
       }
-      return payloadData.map((button) => {
-        const newButton = button;
-        if (button.wasClicked) {
+      return state.map((button) => {
+        const newButton = { ...button };
+        if (button.name === clickedButton.name) {
+          newButton.wasClicked = true;
           newButton.active = true;
+          return newButton;
+        }
+        if (button.stage === clickedButton.stage) {
+          newButton.active = false;
+          return newButton;
         }
         return newButton;
       });

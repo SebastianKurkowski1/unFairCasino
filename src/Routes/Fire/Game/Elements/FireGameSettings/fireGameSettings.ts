@@ -19,7 +19,7 @@ export default function fireGameSettings(
   let y = startingY;
   let x = startingX;
   y += 50;
-  // create level of risk buttons
+  // create  risk buttons
   gameButtonsObjects.push(fireGameButton({
     ctx,
     startingX: x,
@@ -33,6 +33,7 @@ export default function fireGameSettings(
     currentEvent,
     necessaryButtonData: activeButtonsNameAndStage,
     stage: 1,
+    action: 'low',
   }));
   x += gameButtonsObjects[0].width + 20;
   gameButtonsObjects.push(fireGameButton({
@@ -48,6 +49,7 @@ export default function fireGameSettings(
     currentEvent,
     necessaryButtonData: activeButtonsNameAndStage,
     stage: 1,
+    action: 'medium',
   }));
   x += gameButtonsObjects[1].width + 20;
   gameButtonsObjects.push(fireGameButton({
@@ -63,6 +65,66 @@ export default function fireGameSettings(
     currentEvent,
     necessaryButtonData: activeButtonsNameAndStage,
     stage: 1,
+    action: 'high',
+  }));
+  x += gameButtonsObjects[2].width;
+  // create stake section
+  y += 100;
+  gameButtonsObjects.push(fireGameButton({
+    ctx,
+    startingX,
+    startingY: y,
+    gameWidth,
+    gameHeight,
+    buttonText: '-',
+    textColor: 'white',
+    gameState,
+    backgroundColor: '#140f5d',
+    currentEvent,
+    necessaryButtonData: activeButtonsNameAndStage,
+    stage: 2,
+    action: '-',
+  }));
+
+  x -= gameButtonsObjects[3].width + 7;
+  gameButtonsObjects.push(fireGameButton({
+    ctx,
+    startingX: x,
+    startingY: y,
+    gameWidth,
+    gameHeight,
+    buttonText: '+',
+    textColor: 'white',
+    gameState,
+    backgroundColor: '#140f5d',
+    currentEvent,
+    necessaryButtonData: activeButtonsNameAndStage,
+    stage: 2,
+    action: '+',
+  }));
+  x += gameButtonsObjects[4].width;
+  y += gameButtonsObjects[4].height / 2;
+  ctx.font = `${gameWidth / 40}px serif`;
+  ctx.fillStyle = '#3129a8';
+  ctx.textBaseline = 'middle';
+  const textLength = ctx.measureText('10.00');
+  x += textLength.width / 2 + textLength.actualBoundingBoxDescent;
+  ctx.fillText('10.00', x / 2, y);
+  y += 50;
+  gameButtonsObjects.push(fireGameButton({
+    ctx,
+    startingX: x / 2 + 7,
+    startingY: y,
+    gameWidth,
+    gameHeight,
+    buttonText: 'Bet',
+    textColor: 'white',
+    gameState,
+    backgroundColor: '#140f5d',
+    currentEvent,
+    necessaryButtonData: activeButtonsNameAndStage,
+    stage: 3,
+    action: 'start',
   }));
 
   gameButtonsObjects.forEach((button) => {

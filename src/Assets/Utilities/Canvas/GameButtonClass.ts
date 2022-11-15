@@ -27,6 +27,8 @@ export default class GameButtonClass {
 
   public stage: number;
 
+  public action: string;
+
   constructor(
     ctx: CanvasRenderingContext2D,
     x: number,
@@ -38,6 +40,7 @@ export default class GameButtonClass {
     textColor: string,
     gameWidth: number,
     stage: number,
+    action: string,
 
   ) {
     this.name = Math.round(x).toString() + Math.round(y).toString();
@@ -57,6 +60,7 @@ export default class GameButtonClass {
     this.wasClicked = false;
     this.active = false;
     this.stage = stage;
+    this.action = action;
   }
 
   createRoundedPath(
@@ -110,12 +114,11 @@ export default class GameButtonClass {
     return false;
   }
 
-  checkIfActive(nameAndStage: object): boolean {
+  checkIfActive(nameAndStage: { name: string, stage: number }[]): boolean {
     console.log(nameAndStage);
-    // @ts-ignore
-    const filtered = nameAndStage.filter(
-      (element) => (element.stage === this.stage && element.name === this.name),
+    const filteredArray = nameAndStage.filter(
+      (element) => (element.name === this.name && element.stage === this.stage),
     );
-    return (filtered.length > 0);
+    return (filteredArray.length > 0);
   }
 }

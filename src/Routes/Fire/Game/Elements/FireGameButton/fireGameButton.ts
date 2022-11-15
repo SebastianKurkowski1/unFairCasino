@@ -8,6 +8,7 @@ export default function fireGameButton(params: DefaultGameButtonInterface) {
   const buttonHeight = params.gameWidth / 50 + 10;
   const buttonWidth = text.width + params.gameWidth / 40;
   const radius = 10;
+  ctx.textBaseline = 'alphabetic';
   ctx.fillStyle = params.backgroundColor;
   ctx.lineWidth = 5;
   ctx.strokeStyle = '#241ca2';
@@ -22,6 +23,7 @@ export default function fireGameButton(params: DefaultGameButtonInterface) {
     params.textColor,
     params.gameWidth,
     params.stage,
+    params.action,
   );
   if (params.currentEvent === undefined) return fireGameButtonObject;
   if (fireGameButtonObject.mouseOver(params.currentEvent)) {

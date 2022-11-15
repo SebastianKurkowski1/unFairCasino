@@ -12,5 +12,9 @@ export interface DefaultGameButtonInterface {
   stage: number,
   backgroundColor: string,
   currentEvent: React.MouseEvent | undefined,
-  necessaryButtonData: object,
+  necessaryButtonData: {
+    name: string,
+    stage: number,
+  }[],
+  action: string,
 }
