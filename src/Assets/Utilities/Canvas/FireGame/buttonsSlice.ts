@@ -18,20 +18,16 @@ const buttonSlice = createSlice({
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const payloadData: GameButtonClass[] = JSON.parse(action.payload);
       if (state.length === 0) {
-        payloadData.forEach((button) => {
-          state.push(button);
-        });
-        return state;
+        return payloadData;
       }
       // if button was not clicked
       const clickedButton = getClickedButton(payloadData);
       if (clickedButton === null) {
-        state.map((button) => {
+        return state.map((button) => {
           const newButton = { ...button };
           newButton.wasClicked = false;
           return newButton;
         });
-        return state;
       }
       return state.map((button) => {
         const newButton = { ...button };
@@ -42,8 +38,10 @@ const buttonSlice = createSlice({
         }
         if (button.stage === clickedButton.stage) {
           newButton.active = false;
+          newButton.wasClicked = false;
           return newButton;
         }
+        newButton.wasClicked = false;
         return newButton;
       });
     },

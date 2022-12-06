@@ -9,16 +9,23 @@ interface AnimationSettings {
   animationDelay: number,
 }
 
-export default function SlideAnimation(animationProps: React.PropsWithChildren<AnimationSettings>) {
+export default function SlideAnimation({
+  animationDelay,
+  children,
+  fromX,
+  fromY,
+  toX,
+  toY,
+}: React.PropsWithChildren<AnimationSettings>) {
   const styles = useSpring({
-    delay: animationProps.animationDelay,
+    delay: animationDelay,
     from: {
-      x: animationProps.fromX,
-      y: animationProps.fromY,
+      x: fromX,
+      y: fromY,
     },
     to: {
-      x: animationProps.toX,
-      y: animationProps.toY,
+      x: toX,
+      y: toY,
     },
     config: {
       tension: 10,
@@ -29,7 +36,7 @@ export default function SlideAnimation(animationProps: React.PropsWithChildren<A
 
   return (
     <animated.div style={styles}>
-      {animationProps.children}
+      {children}
     </animated.div>
   );
 }

@@ -9,9 +9,8 @@ interface AnimationSettings {
   animationDelay: number,
 }
 
-export default function DroppingText(animationProps: AnimationSettings) {
-  const textArray = animationProps.word;
-
+export default function DroppingText({ animationDelay, lettersDelay, word: textArray }:
+AnimationSettings) {
   const from = {
     y: -2000,
     x: -300,
@@ -23,9 +22,9 @@ export default function DroppingText(animationProps: AnimationSettings) {
 
   const springRef = useSpringRef();
 
-  const [props] = useSprings(textArray.length, (i) => ({
+  const [{ map }] = useSprings(textArray.length, (i) => ({
     ref: springRef,
-    delay: animationProps.lettersDelay * i,
+    delay: lettersDelay * i,
     to,
     from,
     config: {
@@ -35,11 +34,11 @@ export default function DroppingText(animationProps: AnimationSettings) {
     },
   }));
 
-  useChain([springRef], [animationProps.animationDelay, 0]);
+  useChain([springRef], [animationDelay, 0]);
 
   return (
     <div className="flex flex-row">
-      {props.map(({ y, x }, i) => (
+      {map(({ y, x }, i) => (
         <animated.div key={i} style={{ y, x }}>
           {textArray[i]}
         </animated.div>

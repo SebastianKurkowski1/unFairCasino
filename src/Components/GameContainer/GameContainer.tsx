@@ -5,7 +5,7 @@ export default function GameContainer(game: React.PropsWithChildren) {
   return (
     <div
       id="gameContainer"
-      className="w-4/5 h-4/5 md:my-0 my-10 border-8 border-opacity-60 border-gray-700 border-double"
+      className="w-4/5 h-4/5 md:my-0 my-10 border-8 border-opacity-60 border-gray-700 border-double relative"
     >
       {children}
     </div>

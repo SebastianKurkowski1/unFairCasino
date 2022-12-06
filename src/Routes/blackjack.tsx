@@ -1,5 +1,5 @@
 export default function Blackjack() {
   return (
-    <div>asldlasld</div>
+    <div>Available hopefully soon!</div>
   );
 }

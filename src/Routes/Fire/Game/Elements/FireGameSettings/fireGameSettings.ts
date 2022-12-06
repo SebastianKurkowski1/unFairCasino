@@ -102,18 +102,20 @@ export default function fireGameSettings(
     stage: 2,
     action: '+',
   }));
-  x += gameButtonsObjects[4].width;
   y += gameButtonsObjects[4].height / 2;
+  x += gameButtonsObjects[4].width;
+  const currentCenterX = (x - startingX) / 2 + startingX;
   ctx.font = `${gameWidth / 40}px serif`;
   ctx.fillStyle = '#3129a8';
   ctx.textBaseline = 'middle';
-  const textLength = ctx.measureText('10.00');
-  x += textLength.width / 2 + textLength.actualBoundingBoxDescent;
-  ctx.fillText('10.00', x / 2, y);
+  ctx.textAlign = 'center';
+  ctx.fillText('990.00 zł', currentCenterX, y);
+  ctx.font = `${gameWidth / 60}px serif`;
+  const textLength = ctx.measureText('Bet');
   y += 50;
   gameButtonsObjects.push(fireGameButton({
     ctx,
-    startingX: x / 2 + 7,
+    startingX: currentCenterX - textLength.width,
     startingY: y,
     gameWidth,
     gameHeight,

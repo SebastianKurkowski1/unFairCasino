@@ -115,7 +115,6 @@ export default class GameButtonClass {
   }
 
   checkIfActive(nameAndStage: { name: string, stage: number }[]): boolean {
-    console.log(nameAndStage);
     const filteredArray = nameAndStage.filter(
       (element) => (element.name === this.name && element.stage === this.stage),
     );
