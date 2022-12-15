@@ -10,8 +10,8 @@ import { changeGameState } from '../../../Assets/Utilities/Canvas/gameStateSlice
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { accountBalanceReducer } from '../../../Assets/Utilities/Canvas/accountBalanceSlice';
 
-function getClickedButton(buttonsState: GameButtonClass[]): GameButtonClass | null {
-  const filteredButton = buttonsState.filter((button) => button.wasClicked);
+function getClickedButton(gameButtons: GameButtonClass[]): GameButtonClass | null {
+  const filteredButton = gameButtons.filter((button) => button.wasClicked);
   if (filteredButton.length > 0) {
     return filteredButton[0];
   }
@@ -24,6 +24,7 @@ interface Props {
 
 export default function FireGame({ setAlertMessage }: Props) {
   const [currentEvent, setEvent] = useState<React.MouseEvent | undefined>(undefined);
+  const [gameButtons, setGameButtons] = useState<boolean | GameButtonClass[]>(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const buttonsState = useAppSelector((state: RootState) => state.buttons);
   const gameState = useAppSelector((state: RootState) => state.gameState);
@@ -31,8 +32,21 @@ export default function FireGame({ setAlertMessage }: Props) {
   const accountBalanceState = useAppSelector((state: RootState) => state.accountBalance);
   const dispatch = useAppDispatch();
 
+  // initial render
   useEffect(() => {
-    const gameButtons = manageFireGame(
+    setGameButtons(manageFireGame(
+      canvasRef,
+      currentEvent,
+      buttonsState,
+      gameState,
+      accountBalanceState,
+      stakeState,
+    ));
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    manageFireGame(
       canvasRef,
       currentEvent,
       buttonsState,
@@ -40,12 +54,26 @@ export default function FireGame({ setAlertMessage }: Props) {
       accountBalanceState,
       stakeState,
     );
-    console.log(buttonsState);
+    // eslint-disable-next-line
+  }, [stakeState, accountBalanceState]);
 
+  useEffect(() => {
     // todo make game rerender after detecting click
     if (typeof gameButtons === 'boolean') return;
     dispatch(changeActiveButtons(JSON.stringify(gameButtons)));
-    const clickedButton = getClickedButton(buttonsState);
+    const actualButtons = manageFireGame(
+      canvasRef,
+      currentEvent,
+      buttonsState,
+      gameState,
+      accountBalanceState,
+      stakeState,
+    );
+    let clickedButton = null;
+    if (currentEvent?.type === 'click' && typeof actualButtons !== 'boolean') {
+      clickedButton = getClickedButton(actualButtons);
+      setGameButtons(actualButtons);
+    }
     if (clickedButton === null) return;
     dispatch(changeGameState(clickedButton.action));
     dispatch(changeStakeReducer(clickedButton.action));
@@ -61,16 +89,15 @@ export default function FireGame({ setAlertMessage }: Props) {
       setAlertMessage('');
       dispatch(accountBalanceReducer(JSON.stringify({ action: '-', amount: stakeState })));
     }
-    console.log(buttonsState);
     // eslint-disable-next-line
   }, [currentEvent]);
 
   return (
     <canvas
-      onClick={(event) => {
+      onMouseMove={(event) => {
         setEvent(event);
       }}
-      onMouseMove={(event) => {
+      onClickCapture={(event) => {
         setEvent(event);
       }}
       ref={canvasRef}
