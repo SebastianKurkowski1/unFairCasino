@@ -12,6 +12,8 @@ export default function manageFireGame(
   currentEvent: React.MouseEvent | undefined,
   buttonsState: GameButtonClass[],
   gameState: GameStateInterface,
+  accountBalance: number,
+  stake: number,
 ): GameButtonClass[] | boolean {
   // setting canvas margin, fixing width and height
 
@@ -61,11 +63,12 @@ export default function manageFireGame(
     'initial',
     currentEvent,
     buttonsState,
+    stake,
   );
   ctx.font = `${gameWidth / 30}px serif`;
   ctx.fillStyle = '#3129a8';
   ctx.textBaseline = 'top';
-  ctx.fillText('999.00 zł', 20, gameHeight - 20);
+  ctx.fillText(`${accountBalance.toFixed(2)}zł`, 20, gameHeight - 20);
   if (fireGameSettingsData.mouseOver) {
     document.body.style.cursor = 'pointer';
   } else document.body.style.cursor = 'default';

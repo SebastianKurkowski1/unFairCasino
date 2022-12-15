@@ -1,14 +1,14 @@
 import { Dispatch, SetStateAction } from 'react';
 
 interface Props {
-  showAlert: boolean,
-  alertHandler: Dispatch<SetStateAction<boolean>>,
+  alertHandler: Dispatch<SetStateAction<string>>,
+  message: string,
 }
 
-export default function FireGameAlert({ showAlert, alertHandler }: Props) {
+export default function FireGameAlert({ message, alertHandler }: Props) {
   return (
     <div
-      hidden={!showAlert}
+      hidden={message === ''}
       id="alert-5"
       className="flex p-4 bg-gray-100 rounded-lg dark:bg-gray-700"
       role="alert"
@@ -31,14 +31,14 @@ export default function FireGameAlert({ showAlert, alertHandler }: Props) {
       </svg>
       <span className="sr-only">Info</span>
       <div className="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">
-        You need to pick a risk first before going further.
+        {message}
       </div>
       <button
         type="button"
-        className="ml-auto -mx-1.5 -my-1.5 bg-gray-100 text-gray-500 rounded-lg focus:ring-2 focus:ring-gray-400 p-1.5 hover:bg-gray-200 inline-flex h-8 w-8 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+        className="ml-3 -mx-1.5 -my-1.5 bg-gray-100 text-gray-500 rounded-lg focus:ring-2 focus:ring-gray-400 p-1.5 hover:bg-gray-200 inline-flex h-8 w-8 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
         data-dismiss-target="#alert-5"
         aria-label="Close"
-        onClick={() => alertHandler(false)}
+        onClick={() => alertHandler('')}
       >
         <span className="sr-only">Dismiss</span>
         <svg

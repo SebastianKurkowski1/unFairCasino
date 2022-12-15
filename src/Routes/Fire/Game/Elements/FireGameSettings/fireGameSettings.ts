@@ -12,6 +12,7 @@ export default function fireGameSettings(
   gameState: string,
   currentEvent: React.MouseEvent | undefined,
   buttonsState: GameButtonClass[],
+  stake: number,
 ) {
   const activeButtonsNameAndStage = extractValuableButtonsData(buttonsState);
   const gameButtonsObjects = [];
@@ -109,7 +110,7 @@ export default function fireGameSettings(
   ctx.fillStyle = '#3129a8';
   ctx.textBaseline = 'middle';
   ctx.textAlign = 'center';
-  ctx.fillText('990.00 zł', currentCenterX, y);
+  ctx.fillText(`${stake.toFixed(2)} zł`, currentCenterX, y);
   ctx.font = `${gameWidth / 60}px serif`;
   const textLength = ctx.measureText('Bet');
   y += 50;

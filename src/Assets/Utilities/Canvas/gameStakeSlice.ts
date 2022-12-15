@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import GameButtonClass from './GameButtonClass';
 
 function increase(stake: number): number {
   if (stake === 1.00) {
@@ -31,12 +30,11 @@ function decrease(stake: number): number {
   return 1.00;
 }
 
-function changeStake(payload: string, state: number) {
-  const clickedButton: GameButtonClass = JSON.parse(payload);
-  if (clickedButton.action === '+') {
+function changeStake(action: string, state: number) {
+  if (action === '+') {
     return increase(state);
   }
-  if (clickedButton.action === '-') {
+  if (action === '-') {
     return decrease(state);
   }
   return state;

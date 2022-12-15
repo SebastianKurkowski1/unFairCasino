@@ -3,10 +3,12 @@ import React, {
 } from 'react';
 import manageFireGame from './Functions/manageFireGame';
 import { changeActiveButtons } from '../../../Assets/Utilities/Canvas/FireGame/buttonsSlice';
+import { changeStakeReducer } from '../../../Assets/Utilities/Canvas/gameStakeSlice';
 import { RootState } from '../../../store';
 import GameButtonClass from '../../../Assets/Utilities/Canvas/GameButtonClass';
 import { changeGameState } from '../../../Assets/Utilities/Canvas/gameStateSlice';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { accountBalanceReducer } from '../../../Assets/Utilities/Canvas/accountBalanceSlice';
 
 function getClickedButton(buttonsState: GameButtonClass[]): GameButtonClass | null {
   const filteredButton = buttonsState.filter((button) => button.wasClicked);
@@ -17,32 +19,49 @@ function getClickedButton(buttonsState: GameButtonClass[]): GameButtonClass | nu
 }
 
 interface Props {
-  setShowAlert: Dispatch<SetStateAction<boolean>>,
+  setAlertMessage: Dispatch<SetStateAction<string>>,
 }
 
-export default function FireGame({ setShowAlert }: Props) {
+export default function FireGame({ setAlertMessage }: Props) {
   const [currentEvent, setEvent] = useState<React.MouseEvent | undefined>(undefined);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const buttonsState = useAppSelector((state: RootState) => state.buttons);
   const gameState = useAppSelector((state: RootState) => state.gameState);
   const stakeState = useAppSelector((state: RootState) => state.stake);
+  const accountBalanceState = useAppSelector((state: RootState) => state.accountBalance);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const gameButtons = manageFireGame(canvasRef, currentEvent, buttonsState, gameState);
+    const gameButtons = manageFireGame(
+      canvasRef,
+      currentEvent,
+      buttonsState,
+      gameState,
+      accountBalanceState,
+      stakeState,
+    );
+    console.log(buttonsState);
+
+    // todo make game rerender after detecting click
     if (typeof gameButtons === 'boolean') return;
     dispatch(changeActiveButtons(JSON.stringify(gameButtons)));
     const clickedButton = getClickedButton(buttonsState);
     if (clickedButton === null) return;
     dispatch(changeGameState(clickedButton.action));
+    dispatch(changeStakeReducer(clickedButton.action));
     if (clickedButton.action === 'start') {
       if (gameState.risk === '') {
-        setShowAlert(true);
-      } else {
-        setShowAlert(false);
+        setAlertMessage('You have to choose difficulty level before going further');
+        return;
       }
+      if (accountBalanceState < stakeState) {
+        setAlertMessage('You do not have enough money to cover your bet');
+        return;
+      }
+      setAlertMessage('');
+      dispatch(accountBalanceReducer(JSON.stringify({ action: '-', amount: stakeState })));
     }
-
+    console.log(buttonsState);
     // eslint-disable-next-line
   }, [currentEvent]);
 
